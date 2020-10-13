@@ -34,9 +34,18 @@ class CalendarsController < ApplicationController
         today_plans.push(plan.plan) if plan.date == @todays_date + x
       end
 
-      days = { month:  (@todays_date + x).month, date:  (@todays_date+x).day, plans:  today_plans}
+      wday_num = Date.today.wday + x #Date.today.wday（今日だったら３）を利用して曜日に対する番号を取得できるよう定義する
+      #wday_numをwdaysの添字として当てる記述をする
+      # wdays = wday_num
+      if wday_num >= 7
+        wday_num = wday_num - 7
+      end
+      days = { month:  (@todays_date + x).month, date:  (@todays_date+x).day, plans:  today_plans, wday: wdays[wday_num]}
       @week_days.push(days)
     end
 
   end
 end
+
+#41行目のwdayをビューファイルで表示できるようにindex.html.erbを編集
+
